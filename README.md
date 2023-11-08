@@ -1,6 +1,14 @@
 # Demo
 
-## Why is Erlang referenced by a Mix release?
+## About the demo app
+
+The demo app is highly customized for demonstrating following issues. Its Mix release will include three types of files:
+
+1. text files
+2. `.beam` binary files
+3. other binary files
+
+## Usage
 
 Enter the dev shell:
 
@@ -8,7 +16,9 @@ Enter the dev shell:
 $ nix develop
 ```
 
-Build the Mix release provided by this flake:
+## Lab 1: Why is Erlang referenced by a Mix release?
+
+After entering the dev shell, build the Mix release provided by this flake:
 
 ```console
 $ nix build '.#demo'
@@ -33,11 +43,17 @@ $ rg "/nix/store/.*/erlang" result --files-with-matches
 # 2. But, when searching binaries, something is found.
 $ rg "/nix/store/.*/erlang" result --files-with-matches --binary
 result/lib/elixir-1.15.7/ebin/elixir_parser.beam
+result/lib/floki-0.35.2/ebin/floki_selector_lexer.beam
+result/lib/fast_html-2.2.0/priv/fasthtml_worker.dSYM/Contents/Resources/DWARF/fasthtml_worker
 
-# 3. Try to inspect the binary file with `strings`. And as we can see, Erlang is referenced.
+# 3. Try to inspect .beam binary file with `strings`. And as we can see, Erlang is referenced.
 $ strings result/lib/elixir-1.15.7/ebin/elixir_parser.beam | grep -i erlang
 o/nix/store/g46c3h8lf3dxx5z7f8fmjvqfy0xdv9f6-erlang-25.3.2.7/lib/erlang/lib/parsetools-2.4.1/include/yeccpre.hrl
 erlang
+
+# 4. Try to inspect other binary file with `strings`. And as we can see, Erlang is referenced.
+$ strings result/lib/fast_html-2.2.0/priv/fasthtml_worker.dSYM/Contents/Resources/DWARF/fasthtml_worker | grep -i erlang
+/nix/store/g46c3h8lf3dxx5z7f8fmjvqfy0xdv9f6-erlang-25.3.2.7/lib/erlang/erts-13.2.2.4/../lib/erl_interface-5.3.2/include
 ```
 
-Then, due to [Automatic Runtime Dependencies](https://nixos.org/guides/nix-pills/automatic-runtime-dependencies#automatic-runtime-dependencies), Erlang is always included as runtime dependency.
+Due to [Automatic Runtime Dependencies](https://nixos.org/guides/nix-pills/automatic-runtime-dependencies#automatic-runtime-dependencies), Erlang is always included as a runtime dependency.
