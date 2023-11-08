@@ -18,6 +18,8 @@ $ nix develop
 
 ## Lab 1: Why is Erlang referenced by a Mix release?
 
+### Let's see why
+
 After entering the dev shell, build the Mix release provided by this flake:
 
 ```console
@@ -57,3 +59,26 @@ $ strings result/lib/fast_html-2.2.0/priv/fasthtml_worker.dSYM/Contents/Resource
 ```
 
 Due to [Automatic Runtime Dependencies](https://nixos.org/guides/nix-pills/automatic-runtime-dependencies#automatic-runtime-dependencies), Erlang is always included as a runtime dependency.
+
+### Can we substitute Erlang related nix store path in the generated files?
+
+We mentioned three types of files above:
+
+1. text files - it's easy to substitute them, and [current implementation](https://github.com/NixOS/nixpkgs/blob/d9cc44b51e9b333fd67e2c77eda010cc6c9552cc/pkgs/development/beam-modules/mix-release.nix#L148) takes effects on them.
+2. `.beam` binary files - it's hard to substitute them, because `.beam` is special, you can't use `patchelf`, or `bbe` on them directly.
+3. other binary files - `bbe` works on them. We can use something like this:
+
+```bash
+for file in $(rg "${erlang}/lib/erlang" "$out" --files-with-matches --binary --iglob '!*.beam'); do
+  echo "removing reference to erlang in $file"
+  # use bbe to substitute strings in binary files, because using substituteInPlace
+  # on binaries will raise errors
+  bbe -e "s|${erlang}/lib/erlang|$out|" -o "$file".tmp "$file"
+  rm -f "$file"
+  mv "$file".tmp "$file"
+done
+```
+
+In a nutshell, we can't substitute Erlang related nix store path in _all the generated files_, in an easy way.
+
+So, it seems that **we can't remove Erlang reference from Mix release closure**.
