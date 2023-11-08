@@ -16,6 +16,11 @@
       devShells = forEachSupportedSystem ({ pkgs }: with pkgs; {
         default = mkShell {
           buildInputs = [
+            elixir
+            gcc
+            gnumake
+            cmake
+
             ripgrep
           ];
         };
@@ -23,14 +28,27 @@
 
       packages = forEachSupportedSystem
         ({ pkgs }:
+          with pkgs;
           let
             pname = "demo";
             version = "0.1.0";
             src = ./.;
+
+            mixFodDeps = beamPackages.fetchMixDeps {
+              pname = "${pname}-mix-deps";
+              inherit src version;
+              sha256 = "sha256-dN+21nzsCFMUg9Hdvn1j/XyQZeXtIeTMgsixe2hTNwg=";
+            };
           in
           {
-            demo = pkgs.beamPackages.mixRelease {
+            demo = beamPackages.mixRelease {
               inherit pname version src;
+              inherit mixFodDeps;
+
+              nativeBuildInputs = [
+                gcc
+                cmake
+              ];
             };
           });
     };

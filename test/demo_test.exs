@@ -3,6 +3,6 @@ defmodule DemoTest do
   doctest Demo
 
   test "greets the world" do
-    assert Demo.hello() == :world
+    assert Demo.hello() == :ok
   end
 end
