@@ -82,4 +82,4 @@ done
 
 In a nutshell, we can't substitute Erlang related nix store path in _all the generated files_, in an easy way.
 
-So, it seems that **we can't remove Erlang reference from Mix release closure**.
+So, it seems that **we can't remove Erlang reference from Mix release closure for now**.
