@@ -54,6 +54,7 @@ o/nix/store/g46c3h8lf3dxx5z7f8fmjvqfy0xdv9f6-erlang-25.3.2.7/lib/erlang/lib/pars
 erlang
 
 # 4. Try to inspect other binary file with `strings`. And as we can see, Erlang is referenced.
+# Note: I built '.#demo' on x86_64-darwin, so it's possible that the path is not same as yours.
 $ strings result/lib/fast_html-2.2.0/priv/fasthtml_worker.dSYM/Contents/Resources/DWARF/fasthtml_worker | grep -i erlang
 /nix/store/g46c3h8lf3dxx5z7f8fmjvqfy0xdv9f6-erlang-25.3.2.7/lib/erlang/erts-13.2.2.4/../lib/erl_interface-5.3.2/include
 ```
