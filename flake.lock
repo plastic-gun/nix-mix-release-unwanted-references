@@ -2,16 +2,16 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1699343069,
-        "narHash": "sha256-s7BBhyLA6MI6FuJgs4F/SgpntHBzz40/qV0xLPW6A1Q=",
-        "owner": "NixOS",
+        "lastModified": 1701379000,
+        "narHash": "sha256-fIjDY8X9gkYJGGUaabvYreglju430unlonmErjS7qxQ=",
+        "owner": "plastic-forks",
         "repo": "nixpkgs",
-        "rev": "ec750fd01963ab6b20ee1f0cb488754e8036d89d",
+        "rev": "cd8890ca79d0e0b4d825eb98033773c89243e38a",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
+        "owner": "plastic-forks",
+        "ref": "mattpolzin/beamPackages-mixRelease-deterministic",
         "repo": "nixpkgs",
         "type": "github"
       }

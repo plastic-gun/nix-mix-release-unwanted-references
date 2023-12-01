@@ -2,7 +2,7 @@
   description = "A very basic flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:plastic-forks/nixpkgs/mattpolzin/beamPackages-mixRelease-deterministic";
   };
 
   outputs = { self, nixpkgs }:
